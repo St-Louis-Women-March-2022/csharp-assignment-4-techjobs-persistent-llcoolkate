@@ -33,7 +33,7 @@ namespace TechJobsPersistentAutograded.Controllers
             return View(addEmployerViewModel);
         }
         //4
-        //[HttpPost]
+        [HttpPost]
         public IActionResult ProcessAddEmployerForm(AddEmployerViewModel addEmployerViewModel)
         {
             if(ModelState.IsValid)
@@ -41,13 +41,13 @@ namespace TechJobsPersistentAutograded.Controllers
                     Employer employer = new Employer
                     {
                         Name = addEmployerViewModel.Name,
-                        Location = addEmployerViewModel.Location
+                        Location = addEmployerViewModel.Location,
                     };
                     _repo.AddNewEmployer(employer);
                     _repo.SaveChanges();
                     return Redirect("/Employer");
                 }
-            return View("Add", addEmployerViewModel);
+            return View("Add"/*, addEmployerViewModel*/);
         }
         // 5
         public IActionResult About(int id)

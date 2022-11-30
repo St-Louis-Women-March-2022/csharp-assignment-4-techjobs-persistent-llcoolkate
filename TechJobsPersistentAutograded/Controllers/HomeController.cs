@@ -47,13 +47,13 @@ namespace TechJobsPersistentAutograded.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employer newEmployer = _repo.FindEmployerById(addJobViewModel.EmployerId);
+                //Employer newEmployer = _repo.FindEmployerById(addJobViewModel.EmployerId);
                 Job job = new Job
                 {
                     Name = addJobViewModel.Name,
-                    //EmployerId = addJobViewModel.EmployerId
                     EmployerId = addJobViewModel.EmployerId,
                 };
+
                 for (int i = 0; i < selectedSkills.Length; i++)
                 {
                     JobSkill jobSkill = new JobSkill
@@ -81,8 +81,8 @@ namespace TechJobsPersistentAutograded.Controllers
 
             List<JobSkill> jobSkills = _repo.FindSkillsForJob(id).ToList();
 
-            JobDetailViewModel viewModel = new JobDetailViewModel(theJob, jobSkills);
-            return View(viewModel);
+            JobDetailViewModel jobDetailViewModel = new JobDetailViewModel(theJob, jobSkills);
+            return View(jobDetailViewModel);
         }
 
     }
