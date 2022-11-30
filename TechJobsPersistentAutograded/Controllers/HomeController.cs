@@ -48,24 +48,24 @@ namespace TechJobsPersistentAutograded.Controllers
             if (ModelState.IsValid)
             {
                 Employer newEmployer = _repo.FindEmployerById(addJobViewModel.EmployerId);
-                Job newJob = new Job
+                Job job = new Job
                 {
                     Name = addJobViewModel.Name,
                     //EmployerId = addJobViewModel.EmployerId
-                    EmployerId = newEmployer.Id,
+                    EmployerId = addJobViewModel.EmployerId,
                 };
                 for (int i = 0; i < selectedSkills.Length; i++)
                 {
                     JobSkill jobSkill = new JobSkill
                     {
-                        JobId = newJob.Id,
-                        Job = newJob,
+                        JobId = job.Id,
+                        Job = job,
                         SkillId = int.Parse(selectedSkills[i]),
                     };
                     _repo.AddNewJobSkill(jobSkill);
 
                 }
-                _repo.AddNewJob(newJob);
+                _repo.AddNewJob(job);
                 _repo.SaveChanges();
                
                 return Redirect("Index");

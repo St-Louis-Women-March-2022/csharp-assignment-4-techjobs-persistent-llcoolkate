@@ -13,11 +13,11 @@
 
     <div class = "form-group">
         <label asp-for="EmployerId">Employer</label>
-        <select class="form-control" asp-for="EmployerId" asp-items="@Model.Employer"></select>
+        <select class="form-control" asp-for="EmployerId" asp-items="@Model.Employers"></select>
         <span asp-validation-for="EmployerId"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Id">Select the Skills</label>
+        <label asp-for="SkillId">Select the Skills</label>
         @foreach(SelectListItem item in Model.JobSkills)
         {
             <li>
@@ -28,6 +28,7 @@
     <div>
         <a asp-asp-controller="Employer" asp-action="Add" >Add Employer</a>
     </div>
+
     <input type="submit" value="Add Job" />
 
 </form>

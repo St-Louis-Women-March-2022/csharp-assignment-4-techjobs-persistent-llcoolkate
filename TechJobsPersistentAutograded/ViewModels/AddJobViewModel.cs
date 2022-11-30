@@ -12,23 +12,25 @@ namespace TechJobsPersistentAutograded.ViewModels
         public string Name { get; set; }
         [Required(ErrorMessage = "Employer is required")]
         public int EmployerId { get; set; }
-        public int Id { get; set; }
-        public List<SelectListItem> Employer { get; set; }
-        public List<SelectListItem> JobSkills { get; set; }
+        //public int Id { get; set; }
+        public List<SelectListItem> Employers { get; set; }
+       
         public int SkillId { get; set; }
+        public List<SelectListItem> JobSkills { get; set; }
+        public AddJobViewModel()
+        {
+            Employers = new List<SelectListItem>();
+        }
 
-        public AddJobViewModel(List<Employer> employers, List<Skill> skills)
+        public AddJobViewModel(List<Employer> employers, List<Skill> skills) : this()
         {
 
-            Employer = new List<SelectListItem>();
-
-            foreach (Employer employerItem in employers)
+            foreach (var item in employers)
             {
-                Employer.Add(new SelectListItem
+                Employers.Add(new SelectListItem()
                 {
-                    Value = employerItem.Id.ToString(),
-                    Text = employerItem.Name
-
+                    Text = item.Name,
+                    Value = item.Id.ToString(),
                 });
             }
 
@@ -36,7 +38,7 @@ namespace TechJobsPersistentAutograded.ViewModels
 
             foreach (Skill skillItem in skills)
             {
-                JobSkills.Add(new SelectListItem
+                JobSkills.Add(new SelectListItem()
                 {
                     Value = skillItem.Id.ToString(),
                     Text = skillItem.Name
@@ -47,10 +49,10 @@ namespace TechJobsPersistentAutograded.ViewModels
 
 
         }
-        public AddJobViewModel()
-        {
+       // public AddJobViewModel()
+        //{
 
-        }
+        //}
         //public AddJobViewModel(string name, int employerId, int id, List<SelectListItem> employer, List<SelectListItem> jobSkills, int skillId)
         //{
         //    Name = name;
