@@ -36,13 +36,13 @@ namespace TechJobsPersistentAutograded.Controllers
         [HttpGet("/Add")]
         public IActionResult AddJob()
         {
-            List<Employer> employers = _repo.GetAllEmployers().ToList();
-            List<Skill> skills = _repo.GetAllSkills().ToList();
-            AddJobViewModel addJobViewModel = new AddJobViewModel(employers, skills);
-            return View(addJobViewModel);
+            List<Employer> allEmployers = _repo.GetAllEmployers().ToList();
+            List<Skill> allSkills = _repo.GetAllSkills().ToList();
+            AddJobViewModel viewModel = new AddJobViewModel(allEmployers, allSkills);
+            return View(viewModel);
         }
 
-        [HttpPost()]
+        //[HttpPost()]
         public IActionResult ProcessAddJobForm(AddJobViewModel addJobViewModel, string[] selectedSkills)
         {
             if (ModelState.IsValid)
@@ -51,15 +51,33 @@ namespace TechJobsPersistentAutograded.Controllers
                 Job job = new Job
                 {
                     Name = addJobViewModel.Name,
-                    EmployerId = addJobViewModel.EmployerId,
+                    Employer = _repo.FindEmployerById(addJobViewModel.EmployerId),
+                    EmployerId = addJobViewModel.EmployerId
                 };
-                foreach(var skill in selectedSkills)
+                _repo.AddNewJob(job);
+                foreach(string skill in selectedSkills)
                 {
-                    JobSkill jobSkill = new JobSkill();
-                    jobSkill.Job = job;
-                    jobSkill.SkillId = Convert.ToInt32(skill);
-                    job.JobSkills.Add(jobSkill);
+                    JobSkill jobSkill = new JobSkill
+                    {
+                        Job = job,
+                        SkillId = int.Parse(skill)
+                    };
+                    _repo.AddNewJobSkill(jobSkill);
                 }
+                _repo.SaveChanges();
+                return Redirect("Index");
+                //{
+                //    Name = addJobViewModel.Name,
+                //    Employer = _repo.FindEmployerById(addJobViewModel.EmployerId),
+                //    EmployerId = addJobViewModel.EmployerId,
+                //};
+                //foreach(var skill in selectedSkills)
+                //{
+                //    JobSkill jobSkill = new JobSkill();
+                //    jobSkill.Job = job;
+                //    jobSkill.SkillId = Convert.ToInt32(skill);
+                //    job.JobSkills.Add(jobSkill);
+                //}
                 //for (int i = 0; i < selectedSkills.Length; i++)
                 //{
                 //    JobSkill jobSkill = new JobSkill
@@ -76,7 +94,7 @@ namespace TechJobsPersistentAutograded.Controllers
                 return Redirect("Index");
             }
 
-            return View("Add", addJobViewModel);
+            return View("AddJob", new AddJobViewModel(_repo.GetAllEmployers().ToList(), _repo.GetAllSkills().ToList()));
         }
 
 
