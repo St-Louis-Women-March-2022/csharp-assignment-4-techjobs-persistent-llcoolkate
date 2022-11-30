@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using TechJobsPersistentAutograded.Data;
 using TechJobsPersistentAutograded.Models;
 using TechJobsPersistentAutograded.ViewModels;
@@ -13,27 +10,50 @@ namespace TechJobsPersistentAutograded.Controllers
 {
     public class EmployerController : Controller
     {
+        //1) private JobRepository variable to perform CRUD on the database
+        private JobRepository _repo;
 
+        public EmployerController(JobRepository repo)
+        {
+            _repo = repo;
+        }
+
+        //2) complete Index() so that is passes all of the Employer objects in the database to the view
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Employer> employers = _repo.GetAllEmployers();
+            return View(employers);
         }
-
+        //3
         public IActionResult Add()
         {
-            return View();
-        }
+            AddEmployerViewModel addEmployerViewModel = new AddEmployerViewModel();
 
-        public IActionResult ProcessAddEmployerForm()
+            return View(addEmployerViewModel);
+        }
+        //4
+        //[HttpPost]
+        public IActionResult ProcessAddEmployerForm(AddEmployerViewModel addEmployerViewModel)
         {
-            return View();
+            if(ModelState.IsValid)
+                {
+                    Employer employer = new Employer
+                    {
+                        Name = addEmployerViewModel.Name,
+                        Location = addEmployerViewModel.Location
+                    };
+                    _repo.AddNewEmployer(employer);
+                    _repo.SaveChanges();
+                    return Redirect("/Employer");
+                }
+            return View("Add", addEmployerViewModel);
         }
-
+        // 5
         public IActionResult About(int id)
         {
-            return View();
+            Employer employerAbout = _repo.FindEmployerById(id);
+            return View(employerAbout);
         }
     }
 }
-

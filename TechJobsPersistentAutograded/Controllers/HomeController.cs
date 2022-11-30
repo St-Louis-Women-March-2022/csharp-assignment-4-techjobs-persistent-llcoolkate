@@ -32,22 +32,46 @@ namespace TechJobsPersistentAutograded.Controllers
             return View(jobs);
         }
 
-
+        //in AddJob() pass an instance of AddJobViewModel to the view
         [HttpGet("/Add")]
         public IActionResult AddJob()
         {
-            return View();
+            List<Employer> employers = _repo.GetAllEmployers().ToList();
+            List<Skill> skills = _repo.GetAllSkills().ToList();
+            AddJobViewModel addJobViewModel = new AddJobViewModel(employers, skills);
+            return View(addJobViewModel);
         }
 
-
-        public IActionResult ProcessAddJobForm()
+        [HttpPost]
+        public IActionResult ProcessAddJobForm(AddJobViewModel addJobViewModel, string[] selectedSkills)
         {
             if (ModelState.IsValid)
             {
+                Employer newEmployer = _repo.FindEmployerById(addJobViewModel.EmployerId);
+                Job newJob = new Job
+                {
+                    Name = addJobViewModel.Name,
+                    //EmployerId = addJobViewModel.EmployerId
+                    EmployerId = newEmployer.Id,
+                };
+                for (int i = 0; i < selectedSkills.Length; i++)
+                {
+                    JobSkill jobSkill = new JobSkill
+                    {
+                        JobId = newJob.Id,
+                        Job = newJob,
+                        SkillId = int.Parse(selectedSkills[i]),
+                    };
+                    _repo.AddNewJobSkill(jobSkill);
+
+                }
+                _repo.AddNewJob(newJob);
+                _repo.SaveChanges();
+               
                 return Redirect("Index");
             }
 
-            return View("Add");
+            return View("AddJob", addJobViewModel);
         }
 
 
