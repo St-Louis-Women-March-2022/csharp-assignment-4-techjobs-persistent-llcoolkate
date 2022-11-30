@@ -2,7 +2,7 @@
 
 <h1>Add a Job</h1>
 
-<form asp-controller="Home" asp-action="ProcessAddJobForm" method="post">
+<<form asp-controller="Home" asp-action="ProcessAddJobForm" method="post">
 
     <div class="form-group">
 
@@ -14,7 +14,7 @@
     <div class = "form-group">
         <label asp-for="EmployerId">Employer</label>
         <select class="form-control" asp-for="EmployerId" asp-items="@Model.Employers"></select>
-        @*<span asp-validation-for="EmployerId">Emp</span>*@
+        <span asp-validation-for="EmployerId"></span>
         <p>
             <a asp-asp-controller="Employer" asp-action="Add">Add New Employer</a>
         </p>
@@ -29,10 +29,7 @@
             </li>
         }
     </div>
-    @*<div>
-        <a asp-asp-controller="Employer" asp-action="Add" >Add Employer</a>
-    </div>*@
-
+   
     <input type="submit" value="Add Job" />
 
 </form>
