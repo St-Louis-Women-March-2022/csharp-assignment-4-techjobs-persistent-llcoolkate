@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using TechJobsPersistentAutograded.Data;
 using TechJobsPersistentAutograded.Models;
 using TechJobsPersistentAutograded.ViewModels;
@@ -28,9 +29,8 @@ namespace TechJobsPersistentAutograded.Controllers
         //3
         public IActionResult Add()
         {
-            AddEmployerViewModel addEmployerViewModel = new AddEmployerViewModel();
-
-            return View(addEmployerViewModel);
+            AddEmployerViewModel viewModel = new AddEmployerViewModel();
+            return View(viewModel);
         }
         //4
         [HttpPost]
@@ -38,22 +38,31 @@ namespace TechJobsPersistentAutograded.Controllers
         {
             if(ModelState.IsValid)
                 {
-                    Employer employer = new Employer
-                    {
-                        Name = addEmployerViewModel.Name,
-                        Location = addEmployerViewModel.Location,
-                    };
-                    _repo.AddNewEmployer(employer);
-                    _repo.SaveChanges();
-                    return Redirect("/Employer");
+                Employer employer = new Employer
+                {
+                    Location = addEmployerViewModel.Location,
+                    Name = addEmployerViewModel.Name
+                };
+                //{
+                //    Name = addEmployerViewModel.Name,
+                //    Location = addEmployerViewModel.Location,
+                //};
+                _repo.AddNewEmployer(employer);
+                _repo.SaveChanges();
+                return Redirect("/Employer");
                 }
-            return View("Add"/*, addEmployerViewModel*/);
+            return View("Add", addEmployerViewModel);
         }
         // 5
         public IActionResult About(int id)
         {
-            Employer employerAbout = _repo.FindEmployerById(id);
-            return View(employerAbout);
+            AddEmployerViewModel viewModel = new AddEmployerViewModel();
+            Employer employer = _repo.GetAllEmployers().Where(x=> x.Id == id).First();
+            viewModel.Name = employer.Name;
+            viewModel.Location = employer.Location;
+            return View(viewModel);
+            //Employer employerAbout = _repo.FindEmployerById(id);
+            //return View(employerAbout);
         }
     }
 }
