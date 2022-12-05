@@ -34,6 +34,7 @@ namespace TechJobsPersistentAutograded.Controllers
         }
         //4
         [HttpPost]
+        //[Route("")]
         public IActionResult ProcessAddEmployerForm(AddEmployerViewModel addEmployerViewModel)
         {
             if(ModelState.IsValid)

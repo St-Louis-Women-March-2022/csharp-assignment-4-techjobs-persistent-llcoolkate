@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,6 +11,7 @@ using TechJobsPersistentAutograded.ViewModels;
 using TechJobsPersistentAutograded.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace TechJobsPersistentAutograded.Controllers
 {
@@ -51,7 +53,7 @@ namespace TechJobsPersistentAutograded.Controllers
                 Job job = new Job
                 {
                     Name = addJobViewModel.Name,
-                    Employer = _repo.FindEmployerById(addJobViewModel.EmployerId),
+                    //Employer = _repo.FindEmployerById(addJobViewModel.EmployerId),
                     EmployerId = addJobViewModel.EmployerId
                 };
                 _repo.AddNewJob(job);
@@ -67,27 +69,12 @@ namespace TechJobsPersistentAutograded.Controllers
                 _repo.SaveChanges();
                 return Redirect("Index");
                 //{
-                //    Name = addJobViewModel.Name,
-                //    Employer = _repo.FindEmployerById(addJobViewModel.EmployerId),
-                //    EmployerId = addJobViewModel.EmployerId,
-                //};
-                //foreach(var skill in selectedSkills)
-                //{
-                //    JobSkill jobSkill = new JobSkill();
-                //    jobSkill.Job = job;
-                //    jobSkill.SkillId = Convert.ToInt32(skill);
-                //    job.JobSkills.Add(jobSkill);
-                //}
-                //for (int i = 0; i < selectedSkills.Length; i++)
-                //{
                 //    JobSkill jobSkill = new JobSkill
                 //    {
-                //        JobId = job.Id,
                 //        Job = job,
-                //        SkillId = int.Parse(selectedSkills[i]),
+                //        SkillId = int.Parse(skill)
                 //    };
                 //    _repo.AddNewJobSkill(jobSkill);
-
                 //}
                 _repo.AddNewJob(job);
                 _repo.SaveChanges();

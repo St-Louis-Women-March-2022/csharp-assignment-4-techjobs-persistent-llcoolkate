@@ -16,7 +16,7 @@ namespace TechJobsPersistentAutograded.ViewModels
         public List<SelectListItem> Employers { get; set; }
        
         public int SkillId { get; set; }
-        public List<SelectListItem> JobSkills { get; set; }
+        public List<Skill> Skills { get; set; }
         public AddJobViewModel()
         {
             Employers = new List<SelectListItem>();
@@ -33,34 +33,11 @@ namespace TechJobsPersistentAutograded.ViewModels
                     Value = item.Id.ToString(),
                 });
             }
-
-            JobSkills = new List<SelectListItem>();
-
-            foreach (Skill skillItem in skills)
-            {
-                JobSkills.Add(new SelectListItem()
-                {
-                    Value = skillItem.Id.ToString(),
-                    Text = skillItem.Name
-
-                });
-            }
-
+            Skills = skills;
+          
 
 
         }
-       // public AddJobViewModel()
-        //{
-
-        //}
-        //public AddJobViewModel(string name, int employerId, int id, List<SelectListItem> employer, List<SelectListItem> jobSkills, int skillId)
-        //{
-        //    Name = name;
-        //    EmployerId = employerId;
-        //    Id = id;
-        //    Employer = employer;
-        //    JobSkills = jobSkills;
-        //    SkillId = skillId;
-        //}
+      
     }
 }
