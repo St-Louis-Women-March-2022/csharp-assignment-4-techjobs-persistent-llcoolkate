@@ -1,4 +1,6 @@
-﻿@model TechJobsPersistentAutograded.ViewModels.AddJobViewModel
+﻿@using TechJobsPersistentAutograded.ViewModels;
+@model AddJobViewModel
+
 
 <h1>Add a Job</h1>
 
@@ -20,10 +22,10 @@
             <a asp-controller="Employer" asp-action="Add">Add New Employer</a>
         </p>
     </div>
+    <label asp-for="SkillId">Select Skills: </label>
     @if (Model.Skills != null)
     {
         <div class="form-group">
-        <label asp-for="SkillId">Select Skills: </label>
             @foreach(var skill in Model.Skills)
             {
                 <input type="checkbox" name="selectedSkills" value="@skill.Id"/>

@@ -44,7 +44,7 @@ namespace TechJobsPersistentAutograded.Controllers
             return View(viewModel);
         }
 
-        //[HttpPost()]
+        [HttpPost]
         public IActionResult ProcessAddJobForm(AddJobViewModel addJobViewModel, string[] selectedSkills)
         {
             if (ModelState.IsValid)
@@ -57,7 +57,7 @@ namespace TechJobsPersistentAutograded.Controllers
                     EmployerId = addJobViewModel.EmployerId
                 };
                 _repo.AddNewJob(job);
-                foreach(string skill in selectedSkills)
+                foreach (string skill in selectedSkills)
                 {
                     JobSkill jobSkill = new JobSkill
                     {
@@ -80,8 +80,11 @@ namespace TechJobsPersistentAutograded.Controllers
                 _repo.SaveChanges();
                 return Redirect("Index");
             }
+            else
+            {
 
-            return View("AddJob", new AddJobViewModel(_repo.GetAllEmployers().ToList(), _repo.GetAllSkills().ToList()));
+                return View("AddJob", addJobViewModel);
+            };
         }
 
 

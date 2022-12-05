@@ -14,7 +14,6 @@ namespace TechJobsPersistentAutograded.ViewModels
         public int EmployerId { get; set; }
         //public int Id { get; set; }
         public List<SelectListItem> Employers { get; set; }
-       
         public int SkillId { get; set; }
         public List<Skill> Skills { get; set; }
         public AddJobViewModel()
